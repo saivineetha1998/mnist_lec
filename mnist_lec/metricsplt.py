@@ -63,6 +63,7 @@ data = digits.images.reshape((n_samples, -1))
 # Create a classifier: a support vector classifier
 gma = [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.06, 0.10, 0.15, 0.2]
 print("Gamma -> Accuracy -> F1 score")
+# Checking for different values of hyperparameter gamma
 for i in gma:
     clf = svm.SVC(gamma=i)
 

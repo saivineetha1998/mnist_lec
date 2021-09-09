@@ -1,6 +1,7 @@
 # mnist_lec
 The gamma parameter defines the distance of affect of a single training example. If the data points are non-linearly separable, by applying kernel functions they are transformed so that they become linearly-separable. If the gamma values are low, the points which are few are also grouped together. If gamma values are high, the points must be very close to each other to get grouped. This might result in overfitting as they form tight bounded classes.
 So from the table obtained from executing metricsplt.py
+The table for the same is in the file 'Variation of metrics with hyperparameter gamma'
 
 Gamma -> Accuracy -> F1 score
 0.0001  ->  0.9399332591768632  -> 0.9402725064083977

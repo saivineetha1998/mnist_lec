@@ -51,7 +51,9 @@ Gamma -> Accuracy -> F1 score
 
 10  ->  0.10122358175750834  -> 0.018608779676632846
 
+The plot of these values will be like inverted parabola for both metrics accuracy and f1-scores.
+
 We can see that starting with the value of gamma as 0.00001 the metrics, accuracy and f1 score kept on increasing. They reached a peak point at 0.001. Then after 0.001 the values of metrics started to decrease and they have become stable after the gamma value of 0.06.  
-The plot of these values will be like inverted parabola.
+
 This is due to the overfitting caused due to very high values of gamma as the points close to each other get grouped and form tight bounded classes.
 

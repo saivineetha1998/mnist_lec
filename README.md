@@ -1,5 +1,5 @@
 # mnist_lec
-The code filw is assignment.py and the screenshot of the output is the image file with name 'Assignment 3 Variation of metrics with gamma'
+The code file is assignment.py in mnist_lec folder and the screenshot of the output is the image file with name 'Assignment 3 Variation of metrics with gamma'
 The gamma parameter defines the distance of affect of a single training example. If the data points are non-linearly separable, by applying kernel functions they are transformed so that they become linearly-separable. If the gamma values are low, the points which are few are also grouped together. If gamma values are high, the points must be very close to each other to get grouped. This might result in overfitting as they form tight bounded classes.
 So from the table obtained from assignment.py
 

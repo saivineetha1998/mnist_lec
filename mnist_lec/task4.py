@@ -1,5 +1,6 @@
 
 
+#from mnist_lec.mnist_lec.mnist_lec.valmetrics import X_test, X_train, X_val
 import matplotlib.pyplot as plt
 import os
 # Import datasets, classifiers and performance metrics
@@ -8,23 +9,42 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 from sklearn.metrics import accuracy_score
 import pickle
-#def metrics(ratio):
+
+# Preprocessing
+def preprocessing():
+    digits = datasets.load_digits()
+    n_samples = len(digits.images)
+    data = digits.images.reshape((n_samples, -1))
+    return data, digits
 
 
-
-digits = datasets.load_digits()
-
-#_, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
-#for ax, image, label in zip(axes, digits.images, digits.target):
-#    ax.set_axis_off()
-#    ax.imshow(image, cmap=plt.cm.gray_r, interpolation='nearest')
-#    ax.set_title('Training: %i' % label)
-
+# Create Splits
+def create_splits(test_size, val_size):
+    X_tr, X_test, y_tr,  y_test = train_test_split(
+            data, digits.target, test_size=tstSize, shuffle=False)
+    X_train, X_val, y_train,  y_val = train_test_split(
+            X_tr, y_tr,  test_size=valSize, shuffle=False)
+    return X_train, X_val, X_test, y_train, y_val, y_test
 
 
-# flatten the images
-n_samples = len(digits.images)
-data = digits.images.reshape((n_samples, -1))
+# Train and validate
+def train_and_validate(model, X_train, y_train, X_val):
+    model.fit(X_train, y_train)
+    val_predicted = model.predict(X_val)
+    return val_predicted
+
+# Test
+def test(model, X_test):
+    predicted = model.predict(X_test)
+    return predicted
+
+# Report
+def report(y_test, predicted):
+    print("Accuracies and f1 scores of the model")
+    print(accuracy_score(y_test, predicted), " ->", f1_score(y_test, predicted, average='weighted'))
+
+data, digits = preprocessing()
+
 acc = {}
 #f1 = []
 # Create a classifier: a support vector classifier
@@ -32,7 +52,7 @@ gma = [0.00001, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.06, 0.10, 0.15, 0.2, 0.5, 
 #print("On test data")
 print("Gamma -> Accuracy -> F1 score")
 splits  = [(0.15, 0.15), (0.20, 0.10)]
-output_folder = "better_models"
+output_folder = "modularized_models"
 os.mkdir(output_folder)
 # Checking for different values of hyperparameter gamma
 for tstSize, valSize in splits:
@@ -41,16 +61,9 @@ for tstSize, valSize in splits:
         clf = svm.SVC(gamma=i)
     
 
-        # Split data into 50% train and 50% test subsets
-
-        X_tr, X_test, y_tr,  y_test = train_test_split(
-            data, digits.target, test_size=tstSize, shuffle=False)
-        X_train, X_val, y_train,  y_val = train_test_split(
-            X_tr, y_tr,  test_size=valSize, shuffle=False)
+        X_train, X_val, X_test, y_train, y_val, y_test = create_splits(tstSize, valSize)
     
-        # Learn the digits on the train subset
-        clf.fit(X_train, y_train)
-        val_predicted = clf.predict(X_val)
+        val_predicted = train_and_validate(clf, X_train, y_train, X_val)
         if (accuracy_score(y_val, val_predicted))<0.11:
             print("Skipping for gamma {} with test size {} with val size {}".format(i, tstSize, valSize))
             continue
@@ -172,7 +185,10 @@ print(opt_gamma[0])
 #clf.fit(X_train, y_train)
 best_model = 'model_{}_{}_{}.sav'.format(opt_gamma[0], opt_gamma[1], opt_gamma[2])
 loaded_model = pickle.load(open(os.path.join(output_folder, best_model), 'rb'))
-predicted = loaded_model.predict(X_test)
-print(accuracy_score(y_test, predicted), " ->", f1_score(y_test, predicted, average='weighted'))
+# predicted = loaded_model.predict(X_test)
+predicted = test(loaded_model, X_test)
+report(y_test, predicted)
+#print(accuracy_score(y_test, predicted), " ->", f1_score(y_test, predicted, average='weighted'))
+
 
 

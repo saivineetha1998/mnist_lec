@@ -13,6 +13,12 @@ print(__doc__)
 # License: BSD 3 clause
 
 # Standard scientific Python imports
+import sys
+n = len(sys.argv)
+print("The number of parameters passed are ", n)
+print("Gamma value ", sys.argv[0])
+print("Split ratio ", sys.argv[1], sys.argv[2])
+
 import matplotlib.pyplot as plt
 
 # Import datasets, classifiers and performance metrics
@@ -61,11 +67,13 @@ n_samples = len(digits.images)
 data = digits.images.reshape((n_samples, -1))
 
 # Create a classifier: a support vector classifier
-clf = svm.SVC(gamma=0.001)
+clf = svm.SVC(gamma=sys.argv[1])
 
 # Split data into 50% train and 50% test subsets
-X_train, X_test, y_train, y_test = train_test_split(
-    data, digits.target, test_size=0.5, shuffle=False)
+X_tr, X_test, y_tr,  y_test = train_test_split(
+            data, digits.target, test_size=sys.argv[3], shuffle=False)
+X_train, X_val, y_train,  y_val = train_test_split(
+            X_tr, y_tr,  test_size=sys.argv[2], shuffle=False)
 
 # Learn the digits on the train subset
 clf.fit(X_train, y_train)

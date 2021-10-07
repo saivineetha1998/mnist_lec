@@ -1,13 +1,13 @@
 
 
 import matplotlib.pyplot as plt
-
+import os
 # Import datasets, classifiers and performance metrics
 from sklearn import datasets, svm, metrics
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
 from sklearn.metrics import accuracy_score
-
+import pickle
 #def metrics(ratio):
 
 
@@ -32,6 +32,8 @@ gma = [0.00001, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.06, 0.10, 0.15, 0.2, 0.5, 
 #print("On test data")
 print("Gamma -> Accuracy -> F1 score")
 splits  = [(0.15, 0.15), (0.20, 0.10)]
+output_folder = "better_models"
+os.mkdir(output_folder)
 # Checking for different values of hyperparameter gamma
 for tstSize, valSize in splits:
 
@@ -48,10 +50,15 @@ for tstSize, valSize in splits:
     
         # Learn the digits on the train subset
         clf.fit(X_train, y_train)
-
-        # Predict the value of the digit on the test subset
         val_predicted = clf.predict(X_val)
 
+        if (accuracy_score(y_val, val_predicted))<0.11:
+            print("Skipping for gamma {} with test size {} with val size {}".format(i, tstSize, valSize))
+            continue
+        fname = 'model_{}_{}_{}.sav'.format(i, tstSize, valSize)
+        pickle.dump(clf, open(os.path.join(output_folder, fname), 'wb'))
+        # Predict the value of the digit on the test subset
+        
    
 
  #   _, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
@@ -158,12 +165,15 @@ print(opt_gamma)
 print(opt_gamma[0])
 #max_f1 = max(f1)
 #print(max_f1)
-clf = svm.SVC(gamma=opt_gamma[0])
-X_tr, X_test, y_tr,  y_test = train_test_split(
-            data, digits.target, test_size=opt_gamma[2], shuffle=False)
-X_train, X_val, y_train,  y_val = train_test_split(
-            X_tr, y_tr,  test_size=opt_gamma[1], shuffle=False)
-clf.fit(X_train, y_train)
-predicted = clf.predict(X_test)
+#clf = svm.SVC(gamma=opt_gamma[0])
+#X_tr, X_test, y_tr,  y_test = train_test_split(
+ #           data, digits.target, test_size=opt_gamma[2], shuffle=False)
+#X_train, X_val, y_train,  y_val = train_test_split(
+#            X_tr, y_tr,  test_size=opt_gamma[1], shuffle=False)
+#clf.fit(X_train, y_train)
+best_model = 'model_{}_{}_{}.sav'.format(opt_gamma[0], opt_gamma[1], opt_gamma[2])
+loaded_model = pickle.load(open(os.path.join(output_folder, best_model), 'rb'))
+predicted = loaded_model.predict(X_test)
+print('Accuracy and f1 score using the best gamma values and train, val and test rations is')
 print(accuracy_score(y_test, predicted), " ->", f1_score(y_test, predicted, average='weighted'))
 

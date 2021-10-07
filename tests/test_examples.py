@@ -1,5 +1,5 @@
 import math
 
 def test_sqrt():
-    num = 7
+    num = 25
     assert math.sqrt(num)==5

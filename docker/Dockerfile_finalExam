@@ -1,0 +1,9 @@
+FROM ubuntu:18.04
+COPY mnist_lec /exp3/mnist_lec
+COPY api /exp3/api
+COPY requirements.txt /exp3/requirements.txt
+RUN apt-get update && apt-get install -y python3 python3-pip
+RUN pip3 install --no-cache-dir -r /exp3/requirements.txt
+WORKDIR /exp3
+CMD ["python3" , "./mnist_lec/Final_exam.py"]
+

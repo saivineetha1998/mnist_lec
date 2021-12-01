@@ -24,9 +24,9 @@ digits = datasets.load_digits()
 
 # flatten the images
 
-acc = {}
-output_folder = "final_exam_models"
-os.mkdir(output_folder)
+# acc = {}
+# output_folder = "final_exam_models"
+# os.mkdir(output_folder)
 #f1 = []
 # Create a classifier: a support vector classifier
 gma = [0.00001, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.06, 0.10, 0.15, 0.2, 0.5, 1, 1.5, 2, 2.5, 3, 4, 5, 6, 7, 8, 9, 10]

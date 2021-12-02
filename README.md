@@ -4,6 +4,7 @@ Assignment 11
 F1-score has started increasing and became steady at split ration of 60.
 The f1 score highest achieved is 1.0 from the slpit ration of 60 to training data.
 We can observe overfitting from the ratio split of 60 to train set. 
+From the confusion matrices below we can find that the model training with larger splits of 80, 90, 100 gave better predictions on each instances.
 
 SVM Classifier
 Split ratio  10

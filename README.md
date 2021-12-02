@@ -8,9 +8,8 @@ We can observe overfitting from the ratio split of 60 to train set.
 SVM Classifier
 Split ratio  10
 Confusion matrix:
-[[0 0 0 0 0 0 0 3 0 0]
-
- [0 0 0 0 0 0 0 4 0 0]
+[[0 0 0 0 0 0 0 3 0 0]\
+[0 0 0 0 0 0 0 4 0 0]
  
  [0 0 0 0 0 0 0 8 0 0]
  
@@ -286,7 +285,7 @@ Confusion matrix:
  Decision tree classifier
 Split ratio  100
 Confusion matrix:
-[[3 0 0 0 0 0 0 0 0 0]
+[[3 0 0 0 0 0 0 0 0 0]\
  [0 4 0 0 0 0 0 0 0 0]
  [0 2 6 0 0 0 0 0 0 0]
  [0 0 0 3 0 0 0 0 0 1]
